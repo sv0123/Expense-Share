@@ -14,12 +14,14 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+
     useEffect(() => {
         if (token) {
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             localStorage.setItem('token', token);
             // Verify token / fetch user details
-            axios.get('http://localhost:5001/api/auth/me')
+            axios.get(`${baseURL}/auth/me`)
                 .then(res => {
                     setUser(res.data);
                     localStorage.setItem('user', JSON.stringify(res.data));
@@ -38,14 +40,14 @@ export const AuthProvider = ({ children }) => {
     }, [token]);
 
     const login = async (email, password) => {
-        const res = await axios.post('http://localhost:5001/api/auth/login', { email, password });
+        const res = await axios.post(`${baseURL}/auth/login`, { email, password });
         setToken(res.data.token);
         setUser(res.data);
         return res.data;
     };
 
     const register = async (name, email, password, phone) => {
-        const res = await axios.post('http://localhost:5001/api/auth/register', { name, email, password, phone });
+        const res = await axios.post(`${baseURL}/auth/register`, { name, email, password, phone });
         setToken(res.data.token);
         setUser(res.data);
         return res.data;
