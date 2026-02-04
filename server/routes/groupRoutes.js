@@ -25,6 +25,13 @@ router.post('/', validate(createGroupSchema), async (req, res) => {
             await user.save();
         }
 
+        let code;
+        let groupExists = true;
+        while (groupExists) {
+            code = Math.random().toString(36).substring(2, 8).toUpperCase();
+            groupExists = await Group.findOne({ code });
+        }
+
         const group = await Group.create({
             name: groupName,
             code,

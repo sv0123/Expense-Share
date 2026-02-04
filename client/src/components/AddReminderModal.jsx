@@ -23,7 +23,7 @@ const AddReminderModal = ({ groupId, currentUser, onClose, onReminderAdded, onSu
         try {
             await createReminder({
                 groupId,
-                createdBy: currentUser._id,
+                userId: currentUser._id,
                 dueDate,
                 message: message.trim() || 'Please settle your balance.',
             });

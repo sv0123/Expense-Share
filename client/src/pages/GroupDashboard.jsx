@@ -173,7 +173,9 @@ const GroupDashboard = () => {
     }
 
     const totalSpent = expenses.reduce((acc, curr) => acc + curr.amount, 0);
-    const mySpend = expenses.filter((e) => e.payer?._id === currentUser._id).reduce((acc, curr) => acc + curr.amount, 0);
+    const myExpenses = expenses.filter((e) => e.payer?._id === currentUser._id).reduce((acc, curr) => acc + curr.amount, 0);
+    const mySettlements = settlements.filter((s) => (s.fromUser?._id ?? s.fromUser) === currentUser._id).reduce((acc, curr) => acc + curr.amount, 0);
+    const mySpend = myExpenses + mySettlements;
 
     return (
         <Layout variant="top">
